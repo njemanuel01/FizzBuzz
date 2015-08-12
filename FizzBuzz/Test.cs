@@ -22,10 +22,21 @@ public class Translator
 {
 	public static string Translate(int i)
 	{
-		if (i % 3 == 0) return "Fizz";
-		if (i % 5 == 0)
+		if (ShouldFizz(i)) 
+			return "Fizz";
+		if (ShouldBuzz(i))
 			return "Buzz";
 		return i.ToString();
+	}
+
+	private static bool ShouldBuzz(int i)
+	{
+		return i % 5 == 0;
+	}
+
+	private static bool ShouldFizz(int i)
+	{
+		return i % 3 == 0;
 	}
 }
 
