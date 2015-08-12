@@ -17,7 +17,7 @@ public class Translator
 {
 	public static string Translate(int i)
 	{
-		return "1";
+		return i.ToString();
 	}
 }
 
