@@ -6,6 +6,7 @@ using System;
 public class FizzBuzzTests
 {
 	[TestCase (1, "1")]
+	[TestCase (2, "2")]
 	public void Translate (int input, string expected)
 	{
 		string result = Translator.Translate (input);
