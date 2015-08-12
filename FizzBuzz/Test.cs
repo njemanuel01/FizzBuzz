@@ -15,7 +15,23 @@ public class FizzBuzzTests
 	[TestCase (15, "FizzBuzz")]
 	public void Translate (int input, string expected)
 	{
-		string result = Translator.Translate (input);
+		string result = Translator.Translate(input);
+		Assert.That(result, Is.EqualTo(expected));
+	}
+
+	[TestCase (1, "1")]
+	[TestCase (2, "2")]
+	[TestCase (3, "Fizz")]
+	[TestCase (7, "Monkey")]
+	[TestCase (14, "Monkey")]
+	public void TranslateDifferentRules (int input, string expected)
+	{
+		var translator = new Translator();
+		translator.Rules = new List<Func<int, string, string>> {
+			(i, returnString) => returnString + ((i % 7 == 0) ? "Monkey" : string.Empty),
+			(i, returnString) => string.IsNullOrEmpty (returnString) ? i.ToString () : returnString
+		};
+		string result = translator.Translate(input);
 		Assert.That(result, Is.EqualTo(expected));
 	}
 }
