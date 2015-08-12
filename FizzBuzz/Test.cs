@@ -15,7 +15,8 @@ public class FizzBuzzTests
 	[TestCase (15, "FizzBuzz")]
 	public void Translate (int input, string expected)
 	{
-		string result = Translator.Translate(input);
+		var translator = new Translator();
+		string result = translator.Translate(input);
 		Assert.That(result, Is.EqualTo(expected));
 	}
 
@@ -38,12 +39,12 @@ public class FizzBuzzTests
 
 public class Translator
 {
-	public static IList<Func<int, string, string>> Rules = new List<Func<int, string, string>>
+	public IList<Func<int, string, string>> Rules = new List<Func<int, string, string>>
 	{
 		Fizzy, Buzzy, Other
 	};
 
-	public static string Translate(int i)
+	public string Translate(int i)
 	{
 		string returnString = string.Empty;
 		foreach (var rule in Rules) {
