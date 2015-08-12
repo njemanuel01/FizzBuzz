@@ -10,6 +10,7 @@ public class FizzBuzzTests
 	[TestCase (3, "Fizz")]
 	[TestCase (5, "Buzz")]
 	[TestCase (6, "Fizz")]
+	[TestCase (10, "Buzz")]
 	public void Translate (int input, string expected)
 	{
 		string result = Translator.Translate (input);
