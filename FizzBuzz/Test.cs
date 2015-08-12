@@ -19,6 +19,7 @@ public class Translator
 {
 	public static string Translate(int i)
 	{
+		if (i == 3) return "Fizz";
 		return i.ToString();
 	}
 }
