@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 
 [TestFixture ()]
@@ -21,14 +22,16 @@ public class FizzBuzzTests
 
 public class Translator
 {
+	public static IList<Func<int, string, string>> Rules = new List<Func<int, string, string>>
+	{
+		Fizzy, Buzzy, Other
+	};
+
 	public static string Translate(int i)
 	{
 		string returnString = string.Empty;
-		returnString = Fizzy(i, returnString);
-		returnString = Buzzy(i, returnString);
-		if (string.IsNullOrEmpty(returnString))
-		{
-			returnString = i.ToString();
+		foreach (var rule in Rules) {
+			returnString = rule (i, returnString);
 		}
 		return returnString;
 	}
