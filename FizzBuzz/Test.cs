@@ -11,6 +11,7 @@ public class FizzBuzzTests
 	[TestCase (5, "Buzz")]
 	[TestCase (6, "Fizz")]
 	[TestCase (10, "Buzz")]
+	[TestCase (15, "FizzBuzz")]
 	public void Translate (int input, string expected)
 	{
 		string result = Translator.Translate (input);
