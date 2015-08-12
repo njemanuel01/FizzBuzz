@@ -23,11 +23,14 @@ public class Translator
 {
 	public static string Translate(int i)
 	{
-		if (ShouldFizz(i)) 
-			return "Fizz";
-		if (ShouldBuzz(i))
-			return "Buzz";
-		return i.ToString();
+		string returnString = string.Empty;
+		if (ShouldFizz(i)) returnString += "Fizz";
+		if (ShouldBuzz(i)) returnString += "Buzz";
+		if (string.IsNullOrEmpty(returnString))
+		{
+			returnString = i.ToString();
+		}
+		return returnString;
 	}
 
 	private static bool ShouldBuzz(int i)
