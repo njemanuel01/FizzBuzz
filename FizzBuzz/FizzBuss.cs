@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 [TestFixture]
 public class FizzBuzzTests
@@ -13,19 +14,42 @@ public class FizzBuzzTests
 	[TestCase (15, "FizzBuzz")]
 	public void Translate(int input, string expected)
 	{
-		string result = Translator.Translate (input);
+		var translator = new Translator ();
+		string result = translator.Translate (input);
+		Assert.That (result, Is.EqualTo(expected));
+	}
+
+	[TestCase (1, "1")]
+	[TestCase (2, "2")]
+	[TestCase (3, "3")]
+	[TestCase (7, "Monkey")]
+	[TestCase (14, "Monkey")]
+	public void TranslateDifferentRules(int input, string expected)
+	{
+		var translator = new Translator ();
+		translator.Rules = new List<Func<int, string, string>> 
+		{
+			(i, returnString) => returnString + (i % 7 == 0 ? "Monkey" : string.Empty),
+			(i, returnString) => string.IsNullOrEmpty(returnString) ? i.ToString() : returnString
+		};
+		string result = translator.Translate (input);
 		Assert.That (result, Is.EqualTo(expected));
 	}
 }
 
 public class Translator
 {
-	public static string Translate(int i)
+	public IList<Func<int, string, string>> Rules = new List<Func<int, string, string>>
+	{
+		Fizzy, Buzzy, Other
+	};
+	public string Translate(int i)
 	{
 		string returnString = string.Empty;
-		returnString = Fizzy (i, returnString);
-		returnString = Buzzy (i, returnString);
-		returnString = Other (i, returnString);
+		foreach (var rule in Rules)
+		{
+			returnString = rule (i, returnString);
+		}
 		return returnString;
 
 	}

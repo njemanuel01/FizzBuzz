@@ -1,79 +1,98 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 [TestFixture]
 public class RockPaperScissorsTests
 {
-	[TestCase ("Rock", "Scissors", "Player1")]
-	[TestCase ("Paper", "Rock", "Player1")]
-	[TestCase ("Scissors", "Paper", "Player1")]
-	[TestCase ("Paper", "Scissors", "Player2")]
-	[TestCase ("Rock", "Paper", "Player2")]
-	[TestCase ("Scissors", "Rock", "Player2")]
+	[TestCase ("Rock", "Scissors", "Player1 Wins")]
+	[TestCase ("Paper", "Rock", "Player1 Wins")]
+	[TestCase ("Scissors", "Paper", "Player1 Wins")]
+	[TestCase ("Paper", "Scissors", "Player2 Wins")]
+	[TestCase ("Rock", "Paper", "Player2 Wins")]
+	[TestCase ("Scissors", "Rock", "Player2 Wins")]
 	[TestCase ("Rock", "Rock", "Tie")]
 	[TestCase ("Paper", "Paper", "Tie")]
 	public void WinCondition (string input1, string input2, string expected)
 	{
-		string result = RockPaperScissors.winCondition (input1, input2);
+		var game = new RockPaperScissors ();
+		string result = game.winCondition (input1, input2);
 		Assert.That (result, Is.EqualTo(expected));
+	}
+
+	[TestCase ("Rock", "Spock", "Player2 Wins")]
+	[TestCase ("Lizard", "Paper", "Player1 Wins")]
+	public void WinConditionDifferentRules(string input1, string input2, string expected)
+	{
+		var game = new RockPaperScissors ();
+		game.Rules = new List<Func<string, string, string>> 
+		{
+			(weapon1, weapon2) => (weapon1 == "Rock" && weapon2 == "Spock") ? "Player2 Wins" : string.Empty,
+			(weapon1, weapon2) => (weapon1 == "Lizard" && weapon2 == "Paper") ? "Player1 Wins" : string.Empty
+		};
 	}
 
 	[TestCase ("Rock", true)]
 	[TestCase ("Bob", false)]
 	[TestCase ("Paper", true)]
-
+	[TestCase ("Scissors", true)]
+	[TestCase ("rock", true)]
+	[TestCase ("bob", false)]
 	public void ValidEntry (string input, bool expected)
 	{
-		bool result = RockPaperScissors.validEntry (input);
+		var game = new RockPaperScissors ();
+		bool result = game.validEntry (input);
 		Assert.That (result, Is.EqualTo(expected));
 	}
 }
 
 public class RockPaperScissors
 {
-	public static string winCondition(string weapon1, string weapon2)
+	public IList<Func<string, string, string>> Rules = new List<Func<string, string, string>>
 	{
-		if (Player1Wins(weapon1, weapon2))
-			return "Player1";
-		if (Player2Wins(weapon1, weapon2))
-			return "Player2";
-		if (Tie(weapon1, weapon2))
-			return "Tie";
-		return "No Game";
+		Player1Wins, Player2Wins, Tie
+	};
+
+	public string winCondition(string weapon1, string weapon2)
+	{
+		string returnString = string.Empty;
+		foreach (var rule in Rules) 
+		{
+			if (returnString == string.Empty)
+			{
+				returnString = rule (weapon1, weapon2);
+			}
+		}
+
+		return returnString;
 	}
 
-	public static bool validEntry(string entry)
+	public bool validEntry(string entry)
 	{
-		if (entry == "Rock") return true;
+		string test_entry = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry);
+		if (test_entry == "Rock" || test_entry == "Paper" || test_entry == "Scissors") return true;
 		return false;
 	}
 
-	public static bool Player1Wins(string weapon1, string weapon2)
+	public static string Player1Wins(string weapon1, string weapon2)
 	{
-		if (weapon1 == "Rock" && weapon2 == "Scissors")
-			return true;
-		if (weapon1 == "Paper" && weapon2 == "Rock")
-			return true;
-		if (weapon1 == "Scissors" && weapon2 == "Paper")
-			return true;
-		return false;
+		if ((weapon1 == "Rock" && weapon2 == "Scissors") || (weapon1 == "Paper" && weapon2 == "Rock") || (weapon1 == "Scissors" && weapon2 == "Paper"))
+			return "Player1 Wins";
+		return string.Empty;
 	}
 
-	public static bool Player2Wins(string weapon1, string weapon2)
+	public static string Player2Wins(string weapon1, string weapon2)
 	{
-		if (weapon1 == "Rock" && weapon2 == "Paper")
-			return true;
-		if (weapon1 == "Paper" && weapon2 == "Scissors")
-			return true;
-		if (weapon1 == "Scissors" && weapon2 == "Rock")
-			return true;
-		return false;
+		if ((weapon1 == "Paper" && weapon2 == "Scissors") || (weapon1 == "Scissors" && weapon2 == "Rock") || (weapon1 == "Rock" && weapon2 == "Paper"))
+			return "Player2 Wins";
+		return string.Empty;
 	}
 
-	public static bool Tie(string weapon1, string weapon2)
+	public static string Tie(string weapon1, string weapon2)
 	{
 		if (weapon1 == weapon2)
-			return true;
-		return false;
+			return "Tie";
+		return string.Empty;
 	}
 }
