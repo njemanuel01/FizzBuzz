@@ -23,14 +23,26 @@ public class Translator
 	public static string Translate(int i)
 	{
 		string returnString = string.Empty;
-		if (ShouldFizz(i)) returnString += "Fizz";
-		if (ShouldBuzz(i)) returnString += "Buzz";
-		if (string.IsNullOrEmpty(returnString))
-		{
-			return i.ToString ();
-		}
+		returnString = Fizzy (i, returnString);
+		returnString = Buzzy (i, returnString);
+		returnString = Other (i, returnString);
 		return returnString;
 
+	}
+
+	public static string Fizzy(int i, string returnString)
+	{
+		return returnString + (ShouldFizz (i) ? "Fizz" : string.Empty);
+	}
+
+	public static string Buzzy(int i, string returnString)
+	{
+		return returnString + (ShouldBuzz (i) ? "Buzz" : string.Empty);
+	}
+
+	public static string Other(int i, string returnString)
+	{
+		return string.IsNullOrEmpty (returnString) ? i.ToString () : returnString;
 	}
 
 	public static bool ShouldBuzz(int i)

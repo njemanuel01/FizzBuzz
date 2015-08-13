@@ -17,6 +17,16 @@ public class RockPaperScissorsTests
 		string result = RockPaperScissors.winCondition (input1, input2);
 		Assert.That (result, Is.EqualTo(expected));
 	}
+
+	[TestCase ("Rock", true)]
+	[TestCase ("Bob", false)]
+	[TestCase ("Paper", true)]
+
+	public void ValidEntry (string input, bool expected)
+	{
+		bool result = RockPaperScissors.validEntry (input);
+		Assert.That (result, Is.EqualTo(expected));
+	}
 }
 
 public class RockPaperScissors
@@ -30,6 +40,12 @@ public class RockPaperScissors
 		if (Tie(weapon1, weapon2))
 			return "Tie";
 		return "No Game";
+	}
+
+	public static bool validEntry(string entry)
+	{
+		if (entry == "Rock") return true;
+		return false;
 	}
 
 	public static bool Player1Wins(string weapon1, string weapon2)
