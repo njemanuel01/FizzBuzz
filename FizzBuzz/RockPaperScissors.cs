@@ -8,6 +8,8 @@ public class RockPaperScissorsTests
 	[TestCase ("Paper", "Rock", "Player1")]
 	[TestCase ("Scissors", "Paper", "Player1")]
 	[TestCase ("Paper", "Scissors", "Player2")]
+	[TestCase ("Rock", "Paper", "Player2")]
+	[TestCase ("Scissors", "Rock", "Player2")]
 	[TestCase ("Rock", "Rock", "Tie")]
 	public void WinCondition (string input1, string input2, string expected)
 	{
@@ -27,6 +29,10 @@ public class RockPaperScissors
 		if (weapon1 == "Scissors" && weapon2 == "Paper")
 			return "Player1";
 		if (weapon1 == "Paper" && weapon2 == "Scissors")
+			return "Player2";
+		if (weapon1 == "Rock" && weapon2 == "Paper")
+			return "Player2";
+		if (weapon1 == "Scissors" && weapon2 == "Rock")
 			return "Player2";
 		if (weapon1 == "Rock" && weapon2 == "Rock")
 			return "Tie";
