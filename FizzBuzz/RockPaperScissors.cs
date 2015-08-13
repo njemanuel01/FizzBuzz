@@ -11,6 +11,7 @@ public class RockPaperScissorsTests
 	[TestCase ("Rock", "Paper", "Player2")]
 	[TestCase ("Scissors", "Rock", "Player2")]
 	[TestCase ("Rock", "Rock", "Tie")]
+	[TestCase ("Paper", "Paper", "Tie")]
 	public void WinCondition (string input1, string input2, string expected)
 	{
 		string result = RockPaperScissors.winCondition (input1, input2);

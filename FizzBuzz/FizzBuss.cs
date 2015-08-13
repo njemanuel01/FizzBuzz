@@ -10,6 +10,7 @@ public class FizzBuzzTests
 	[TestCase (5, "Buzz")]
 	[TestCase (6, "Fizz")]
 	[TestCase (10, "Buzz")]
+	[TestCase (15, "FizzBuzz")]
 	public void Translate(int input, string expected)
 	{
 		string result = Translator.Translate (input);
@@ -21,10 +22,14 @@ public class Translator
 {
 	public static string Translate(int i)
 	{
-		if (ShouldFizz(i))
-			return "Fizz";
-		if (ShouldBuzz(i)) return "Buzz";
-		return i.ToString();
+		string returnString = string.Empty;
+		if (ShouldFizz(i)) returnString += "Fizz";
+		if (ShouldBuzz(i)) returnString += "Buzz";
+		if (string.IsNullOrEmpty(returnString))
+		{
+			return i.ToString ();
+		}
+		return returnString;
 
 	}
 
