@@ -14,67 +14,38 @@ public class FizzBuzzTests
 	[TestCase (15, "FizzBuzz")]
 	public void Translate(int input, string expected)
 	{
-		var translator = new Translator ();
-		string result = translator.Translate (input);
-		Assert.That (result, Is.EqualTo(expected));
-	}
-
-	[TestCase (1, "1")]
-	[TestCase (2, "2")]
-	[TestCase (3, "3")]
-	[TestCase (7, "Monkey")]
-	[TestCase (14, "Monkey")]
-	public void TranslateDifferentRules(int input, string expected)
-	{
-		var translator = new Translator ();
-		translator.Rules = new List<Func<int, string, string>> 
-		{
-			(i, returnString) => returnString + (i % 7 == 0 ? "Monkey" : string.Empty),
-			(i, returnString) => string.IsNullOrEmpty(returnString) ? i.ToString() : returnString
-		};
-		string result = translator.Translate (input);
+		string result = FizzBuzz.Translate (input);
 		Assert.That (result, Is.EqualTo(expected));
 	}
 }
 
-public class Translator
+public class FizzBuzz
 {
-	public IList<Func<int, string, string>> Rules = new List<Func<int, string, string>>
-	{
-		Fizzy, Buzzy, Other
-	};
-	public string Translate(int i)
+	public static string Translate(int i)
 	{
 		string returnString = string.Empty;
-		foreach (var rule in Rules)
-		{
-			returnString = rule (i, returnString);
+		if (ShouldFizz(i)) {
+			returnString += "Fizz";
 		}
+		if (ShouldBuzz(i)) {
+			returnString += "Buzz";
+		}
+		if (string.IsNullOrEmpty(returnString))
+		{
+			return i.ToString();
+		}
+
 		return returnString;
-
 	}
 
-	public static string Fizzy(int i, string returnString)
+	public static bool ShouldFizz(int i)
 	{
-		return returnString + (ShouldFizz (i) ? "Fizz" : string.Empty);
-	}
-
-	public static string Buzzy(int i, string returnString)
-	{
-		return returnString + (ShouldBuzz (i) ? "Buzz" : string.Empty);
-	}
-
-	public static string Other(int i, string returnString)
-	{
-		return string.IsNullOrEmpty (returnString) ? i.ToString () : returnString;
+		return i % 3 == 0;
 	}
 
 	public static bool ShouldBuzz(int i)
 	{
 		return i % 5 == 0;
 	}
-	public static bool ShouldFizz(int i)
-	{
-		return i % 3 == 0;
-	}
+	
 }
