@@ -1,12 +1,23 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 
-namespace FizzBuzz
+[TestFixture]
+public class ChangeMakerTests
 {
-	public class EmptyClass
+	[Test]
+	public void ChangeMakerOne()
 	{
-		public EmptyClass ()
-		{
-		}
+		int result = ChangeMaker.MakeChange(1);
+		Assert.That (result, Is.EqualTo(1));
 	}
 }
+
+public class ChangeMaker
+{
+	public static int MakeChange (int i)
+	{
+		return 1;
+	}
+}
+
 
