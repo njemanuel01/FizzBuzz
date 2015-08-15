@@ -37,6 +37,7 @@
     <Compile Include="RockPaperScissors.cs" />
     <Compile Include="FizzBuss.cs" />
     <Compile Include="ChangeMaker.cs" />
+    <Compile Include="Summer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
