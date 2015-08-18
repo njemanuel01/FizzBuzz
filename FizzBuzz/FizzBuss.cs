@@ -15,7 +15,7 @@ public class FizzBuzzTests
 	public void Translate(int input, string expected)
 	{
 		var translator = new FizzBuzz ();
-		string result = translator.Translate(input);
+		string result = translator.Translate (input);
 		Assert.That (result, Is.EqualTo(expected));
 	}
 
@@ -26,14 +26,15 @@ public class FizzBuzzTests
 	[TestCase (14, "Monkey")]
 	public void TranslateDifferentRules(int input, string expected)
 	{
-		var translator =  new FizzBuzz ();
-		translator.Rules = new List<Func<int, string, string>> 
+		var translator = new FizzBuzz ();
+		translator.Rules = new List<Func<int, string, string>>
 		{
-			(i, returnString) => returnString + ((i % 7 == 0) ? "Monkey" : string.Empty),
+			(i, returnString) => returnString + (i % 7 == 0 ? "Monkey" : string.Empty),
 			(i, returnString) => string.IsNullOrEmpty(returnString) ? i.ToString() : returnString
+
 		};
 		string result = translator.Translate (input);
-		Assert.That (result, Is.EqualTo (expected));
+		Assert.That (result, Is.EqualTo(expected));
 	}
 }
 
@@ -43,26 +44,14 @@ public class FizzBuzz
 	{
 		Fizzy, Buzzy, Other
 	};
-
 	public string Translate(int i)
 	{
 		string returnString = string.Empty;
 		foreach (var rule in Rules)
 		{
-			returnString = rule(i, returnString);
+			returnString = rule (i, returnString);
 		}
-
 		return returnString;
-	}
-
-	public static bool ShouldFizz(int i)
-	{
-		return i % 3 == 0;
-	}
-
-	public static bool ShouldBuzz(int i)
-	{
-		return i % 5 == 0;
 	}
 
 	public static string Fizzy(int i, string returnString)
@@ -75,8 +64,18 @@ public class FizzBuzz
 		return returnString + (ShouldBuzz (i) ? "Buzz" : string.Empty);
 	}
 
-	public static string Other (int i, string returnString)
+	public static string Other(int i, string returnString)
 	{
-		return string.IsNullOrEmpty (returnString) ? i.ToString () : returnString;
+		return (string.IsNullOrEmpty(returnString) ? i.ToString() : returnString);
+	}
+
+	public static bool ShouldFizz(int i)
+	{
+		return i % 3 == 0;
+	}
+
+	public static bool ShouldBuzz(int i)
+	{
+		return i % 5 == 0;
 	}
 }
